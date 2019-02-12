@@ -45,6 +45,5 @@ def dict_to_rus(mydict):
 with open(json_path) as f:
     json_data = json.load(f)
     dict_to_rus(json_data)
-    print(get_keys(get_by_path(json_data, ['генеалогия'])))
 
 
