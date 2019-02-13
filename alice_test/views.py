@@ -85,8 +85,8 @@ def go_to_subnode(user_id, command):
 def search_for_node(user_id, command):
     node_name = command.split()[-1]
     if "глобально" in command:
-        search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
-    else:
         search_scope = ad.json_data
+    else:
+        search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
     result = ad.find_node(search_scope, node_name)
     return "В узле {} есть вот что:\n{}".format(node_name, str(result))
