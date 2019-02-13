@@ -88,5 +88,9 @@ def search_for_node(user_id, command):
         search_scope = ad.json_data
     else:
         search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
-    result = ad.find_node(search_scope, node_name)
-    return "В узле {} есть вот что:\n{}".format(node_name, str(result))
+    results = ad.find_node(search_scope, node_name)
+    final_string = "Найдено узлов: {}.\n".format(len(results))
+    for result in results:
+        final_string += "{}\n".format(ad.get_keys(result))
+    return final_string
+
