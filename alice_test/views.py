@@ -91,6 +91,6 @@ def search_for_node(user_id, command):
     results = ad.find_node(search_scope, node_name)
     final_string = "Найдено узлов: {}.\n".format(len(results))
     for i, result in enumerate(results):
-        final_string += "{}-й узел: {}\n".format(i, ad.get_keys(result))
+        final_string += "{}-й узел: {}\n".format(i+1, ad.get_keys(result))  # List indexed from zero, so add 1 to i
     return final_string
 
