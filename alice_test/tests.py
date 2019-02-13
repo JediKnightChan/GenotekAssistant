@@ -32,13 +32,13 @@ def create_request(command, new_session=False):
     }
 
 
-def test_alice(self, command, expected, new_session=False):
-    response = self.client.post('/alice/', json.dumps(create_request(command, new_session=new_session)),
-                                content_type="application/json")
-    self.assertEqual(response.status_code, 200)
+def test_alice(test_obj, command, expected, new_session=False):
+    response = test_obj.client.post('/alice/', json.dumps(create_request(command, new_session=new_session)),
+                                    content_type="application/json")
+    test_obj.assertEqual(response.status_code, 200)
     response_data = json.loads(response.content)
     text_response = response_data['response']['text']
-    self.assertEqual(text_response, expected)
+    test_obj.assertEqual(text_response, expected)
 
 
 class MyTests(TestCase):
@@ -51,3 +51,10 @@ class MyTests(TestCase):
                                   "генеалогия, черты, мультифакторы, генетика")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
                                                 "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
+
+    def test_alice_dialogue2(self):
+        test_alice(self, "", "Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
+        test_alice(self, "Перейди назад", "Вы находитесь в корне")
+        test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
+                                                 "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
+        test_alice(self, "Перейди назад", "Вы перешли из генеалогия на уровень вверх и вернулись в корень")

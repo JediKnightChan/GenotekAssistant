@@ -35,11 +35,17 @@ def handle_dialog(yandex_data):
         return say_about()
     if "где я" in command:
         text = get_location(user_id)
+    elif "перейди назад" in command:
+        text = go_back(user_id)
     elif "перейди в" in command:
         text = go_to_subnode(user_id, command)
     else:
         text = "Не умею"
     return text
+
+
+def user_in_root(user_id):
+    return coordinates[user_id] == []
 
 
 def say_about():
@@ -48,8 +54,17 @@ def say_about():
 
 def get_location(user_id):
     subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
-    current_node = coordinates[user_id] == [] and "корне" or coordinates[user_id][-1]
+    current_node = user_in_root(user_id) and "корне" or coordinates[user_id][-1]
     return "Вы находитесь в {}. Тут есть {}".format(current_node, subnodes)
+
+
+def go_back(user_id):
+    if user_in_root(user_id):
+        return "Вы находитесь в корне"
+    else:
+        prev_node = coordinates[user_id].pop()
+        current_node = user_in_root(user_id) and "корень" or coordinates[user_id][-1]
+        return "Вы перешли из {} на уровень вверх и вернулись в {}".format(prev_node, current_node)
 
 
 def go_to_subnode(user_id, command):
