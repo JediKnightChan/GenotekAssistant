@@ -39,6 +39,8 @@ def handle_dialog(yandex_data):
         text = go_back(user_id)
     elif "перейди в" in command:
         text = go_to_subnode(user_id, command)
+    elif "найди" in command:
+        text = search_for_node(user_id, command)
     else:
         text = "Не умею"
     return text
@@ -78,3 +80,13 @@ def go_to_subnode(user_id, command):
         coordinates[user_id].append(requested_subnode)
         new_subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
         return "Я перешла в {}. Здесь есть {}".format(requested_subnode, new_subnodes)
+
+
+def search_for_node(user_id, command):
+    node_name = command.split()[-1]
+    if "глобально" in command:
+        search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
+    else:
+        search_scope = ad.json_data
+    result = ad.find_node(search_scope, node_name)
+    return "В узле {} есть вот что:\n{}".format(node_name, str(result))
