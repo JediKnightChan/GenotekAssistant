@@ -17,7 +17,8 @@ def alice_test(request):
 
     response = {
         "response": {
-            "text": str(text),
+            "text": text,
+            "tts": text,
             "end_session": False,
         },
         "session": {
