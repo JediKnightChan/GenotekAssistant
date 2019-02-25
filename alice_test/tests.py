@@ -45,21 +45,21 @@ class MyTests(TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_alice_dialogue1(self):
+    def test_go_to(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
         test_alice(self, "Где я?", "Вы находитесь в корне. Тут есть inheritance, "
                                   "генеалогия, черты, мультифакторы, генетика")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
                                                 "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
 
-    def test_alice_dialogue2(self):
+    def test_go_back(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
         test_alice(self, "Перейди назад", "Вы находитесь в корне")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
                                                  "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
         test_alice(self, "Перейди назад", "Вы перешли из генеалогия на уровень вверх и вернулись в корень")
 
-    def test_alice_dialogue3(self):
+    def test_find(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
         test_alice(self, "Найди абракадабра", "Ничего не найдено")
         test_alice(self, "Найди eyes", "Вы имеете в виду eyes или child?")

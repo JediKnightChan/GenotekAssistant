@@ -91,6 +91,7 @@ def filter_paths(paths, i, selected_value):
 
 def choose_option(user_find_resulsts, user_id):
     paths, i = user_find_resulsts[user_id]
+    print(paths, i)
     options = get_options(paths, i)
     if len(options) == 0:
         return True, paths[0]

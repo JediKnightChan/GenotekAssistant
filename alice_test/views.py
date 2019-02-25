@@ -40,7 +40,7 @@ def handle_dialog(yandex_data):
         return say_about()
 
     if user_id in user_find_resulsts:
-        return handle_find_dialogue(user_id)
+        return handle_find_dialogue(user_id, command)
 
     if "помощь" in command or "что ты умеешь" in command:
         text = app_help()
@@ -130,10 +130,18 @@ def search_for_node(user_id, command):
         return get_subnodes_text(destination, user_id)
     else:
         user_find_resulsts[user_id] = option_paths, 0
-        return handle_find_dialogue(user_id)
+        return handle_find_dialogue(user_id, None)
 
 
-def handle_find_dialogue(user_id):
+def handle_find_dialogue(user_id, command):
+    if command:
+        key = command.replace("я имею в виду", "").strip()
+        paths, i = user_find_resulsts[user_id]
+        options = ad.get_options(paths, i)
+        if key not in options:
+            return "Пожалуйста, выберите один из вариантов"
+        else:
+            user_find_resulsts[user_id] = ad.filter_paths(paths, i, key), i+1
     end_find_dialogue, result = ad.choose_option(user_find_resulsts, user_id)
     if end_find_dialogue:
         user_find_resulsts[user_id].pop(user_id)
