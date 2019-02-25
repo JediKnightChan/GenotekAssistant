@@ -37,7 +37,9 @@ def handle_dialog(yandex_data):
     if yandex_data['session']['new'] or user_id not in coordinates:
         coordinates[user_id] = []
         return say_about()
-    if "где я" in command:
+    if "помощь" in command or "что ты умеешь" in command:
+        text = app_help()
+    elif "где я" in command:
         text = get_location(user_id)
     elif "перейди назад" in command:
         text = go_back(user_id)
@@ -62,8 +64,16 @@ def user_in_root(user_id):
 
 
 def say_about():
-    return "Я умею говорить, где вы находитесь в JSON-файле"
+    return "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле"
 
+
+def app_help():
+    return "Я помогу вам узнать результаты генетического теста, представленные в виде древовидной структуры.\n" \
+           "Команды:\n" \
+           "Где я? - Рассказывает, где вы находитесь в дереве и показывает подузлы, куда вы можете перейди\n" \
+           "Перейди в <узел> - Перемещает вас в узел и показывает его подузлы\n" \
+           "Перейди назад - Перемещает вас на уровень вверх" \
+           "Найди <узел> - Показывает узлы с таким именем и их содержимое\n"
 
 def get_location(user_id):
     subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
