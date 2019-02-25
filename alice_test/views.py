@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 import alice_test.additional as ad
 
 coordinates = {}
+LOOP_NODE_MAX_CHARS = 40
+SINGLE_NODE_MAX_CHARS = 100
+TEXT_MAX_CHARS = 1000
 
 
 @csrf_exempt
@@ -43,6 +46,13 @@ def handle_dialog(yandex_data):
         text = search_for_node(user_id, command)
     else:
         text = "Не умею"
+    text = truncate_text(text, TEXT_MAX_CHARS)
+    return text
+
+
+def truncate_text(text, max_chars):
+    if len(text) > TEXT_MAX_CHARS:
+        text = "".join([text[:max_chars-3], "..."])
     return text
 
 
@@ -56,6 +66,7 @@ def say_about():
 
 def get_location(user_id):
     subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
+    subnodes = truncate_text(str(subnodes), SINGLE_NODE_MAX_CHARS)
     current_node = user_in_root(user_id) and "корне" or coordinates[user_id][-1]
     return "Вы находитесь в {}. Тут есть {}".format(current_node, subnodes)
 
@@ -79,6 +90,7 @@ def go_to_subnode(user_id, command):
     else:
         coordinates[user_id].append(requested_subnode)
         new_subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
+        new_subnodes = truncate_text(str(new_subnodes), SINGLE_NODE_MAX_CHARS)
         return "Я перешла в {}. Здесь есть {}".format(requested_subnode, new_subnodes)
 
 
@@ -91,6 +103,6 @@ def search_for_node(user_id, command):
     results = ad.find_node(search_scope, node_name)
     final_string = "Найдено узлов: {}.\n".format(len(results))
     for i, result in enumerate(results):
-        final_string += "{}-й узел: {}\n".format(i+1, ad.get_keys(result))  # List indexed from zero, so add 1 to i
+        subnodes = truncate_text(str(ad.get_keys(result)), LOOP_NODE_MAX_CHARS)
+        final_string += "{}-й узел: {}\n".format(i+1, subnodes)  # List indexed from zero, so add 1 to i
     return final_string
-
