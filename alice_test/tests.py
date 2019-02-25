@@ -58,3 +58,8 @@ class MyTests(TestCase):
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
                                                  "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
         test_alice(self, "Перейди назад", "Вы перешли из генеалогия на уровень вверх и вернулись в корень")
+
+    def test_alice_dialogue3(self):
+        test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
+        test_alice(self, "Найди абракадабра", "Ничего не найдено")
+        test_alice(self, "Найди eyes", "Вы имеете в виду eyes или child?")

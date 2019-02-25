@@ -121,7 +121,7 @@ def search_for_node(user_id, command):
         search_scope = ad.json_data
     else:
         search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
-    option_paths = ad.find_node(search_scope, node_name)
+    option_paths = list(ad.find_node(search_scope, node_name))
     if len(option_paths) == 0:
         return "Ничего не найдено"
     elif len(option_paths) == 1:
