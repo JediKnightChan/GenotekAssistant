@@ -37,6 +37,7 @@ def handle_dialog(yandex_data):
     user_id = yandex_data['session']['user_id']
     if yandex_data['session']['new'] or user_id not in coordinates:
         coordinates[user_id] = []
+        user_find_resulsts.pop(user_id, None)
         return say_about()
 
     if user_id in user_find_resulsts:
@@ -144,7 +145,7 @@ def handle_find_dialogue(user_id, command):
             user_find_resulsts[user_id] = ad.filter_paths(paths, i, key), i+1
     end_find_dialogue, result = ad.choose_option(user_find_resulsts, user_id)
     if end_find_dialogue:
-        user_find_resulsts[user_id].pop(user_id)
+        user_find_resulsts.pop(user_id)
         coordinates[user_id] = result
         destination = "/".join(result)
         return get_subnodes_text(destination, user_id)
