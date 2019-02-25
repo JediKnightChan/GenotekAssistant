@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import alice_test.additional as ad
 
 coordinates = {}
+user_find_resulsts = {}
 LOOP_NODE_MAX_CHARS = 40
 SINGLE_NODE_MAX_CHARS = 100
 TEXT_MAX_CHARS = 1000
@@ -37,6 +38,10 @@ def handle_dialog(yandex_data):
     if yandex_data['session']['new'] or user_id not in coordinates:
         coordinates[user_id] = []
         return say_about()
+
+    if user_id in user_find_resulsts:
+        return handle_find_dialogue(user_id)
+
     if "помощь" in command or "что ты умеешь" in command:
         text = app_help()
     elif "где я" in command:
@@ -75,6 +80,7 @@ def app_help():
            "Перейди назад - Перемещает вас на уровень вверх\n" \
            "Найди <узел> - Показывает узлы с таким именем и их содержимое\n"
 
+
 def get_location(user_id):
     subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
     subnodes = truncate_text(str(subnodes), SINGLE_NODE_MAX_CHARS)
@@ -91,6 +97,12 @@ def go_back(user_id):
         return "Вы перешли из {} на уровень вверх и вернулись в {}".format(prev_node, current_node)
 
 
+def get_subnodes_text(destination, user_id):
+    subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
+    subnodes = truncate_text(str(subnodes), SINGLE_NODE_MAX_CHARS)
+    return "Я перешла в {}. Здесь есть {}".format(destination, subnodes)
+
+
 def go_to_subnode(user_id, command):
     subnodes = ad.get_by_path(ad.json_data, coordinates[user_id])
     requested_subnode = command.replace("перейди в", "").strip()
@@ -100,9 +112,7 @@ def go_to_subnode(user_id, command):
         return "Его там нет"
     else:
         coordinates[user_id].append(requested_subnode)
-        new_subnodes = ad.get_keys(ad.get_by_path(ad.json_data, coordinates[user_id]))
-        new_subnodes = truncate_text(str(new_subnodes), SINGLE_NODE_MAX_CHARS)
-        return "Я перешла в {}. Здесь есть {}".format(requested_subnode, new_subnodes)
+        return get_subnodes_text(requested_subnode, user_id)
 
 
 def search_for_node(user_id, command):
@@ -111,9 +121,24 @@ def search_for_node(user_id, command):
         search_scope = ad.json_data
     else:
         search_scope = ad.get_by_path(ad.json_data, coordinates[user_id])
-    results = ad.find_node(search_scope, node_name)
-    final_string = "Найдено узлов: {}.\n".format(len(results))
-    for i, result in enumerate(results):
-        subnodes = truncate_text(str(ad.get_keys(result)), LOOP_NODE_MAX_CHARS)
-        final_string += "{}-й узел: {}\n".format(i+1, subnodes)  # List indexed from zero, so add 1 to i
-    return final_string
+    option_paths = ad.find_node(search_scope, node_name)
+    if len(option_paths) == 0:
+        return "Ничего не найдено"
+    elif len(option_paths) == 1:
+        coordinates[user_id] = option_paths[0]
+        destination = "/".join(option_paths[0])
+        return get_subnodes_text(destination, user_id)
+    else:
+        user_find_resulsts[user_id] = option_paths, 0
+        return handle_find_dialogue(user_id)
+
+
+def handle_find_dialogue(user_id):
+    end_find_dialogue, result = ad.choose_option(user_find_resulsts, user_id)
+    if end_find_dialogue:
+        user_find_resulsts[user_id].pop(user_id)
+        coordinates[user_id] = result
+        destination = "/".join(result)
+        return get_subnodes_text(destination, user_id)
+    else:
+        return result

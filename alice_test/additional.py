@@ -43,26 +43,64 @@ def dict_to_rus(mydict):
             dict_to_rus(value)
 
 
-def get_leaves_from_list(mylist, node_name):
-    for el in mylist:
+def get_leaves_from_list(mylist, node_name, path):
+    for i, el in enumerate(mylist):
+        temp_path = path.copy()
+        temp_path.append(i)
         if isinstance(el, dict):
-            yield from _search_node(el, node_name)
+            yield from _search_node(el, node_name, temp_path)
         elif isinstance(el, list):
-            yield from get_leaves_from_list(el, node_name)
+            yield from get_leaves_from_list(el, node_name, temp_path)
 
 
-def _search_node(mydict, node_name):
+def _search_node(mydict, node_name, path):
     for k, v in mydict.items():
+        temp_path = path.copy()
+        temp_path.append(k)
         if k == node_name:
-            yield v
+            yield temp_path
         if isinstance(v, dict):
-            yield from _search_node(v, node_name)
+            yield from _search_node(v, node_name, temp_path)
         elif isinstance(v, list):
-            yield from get_leaves_from_list(v, node_name)
+            yield from get_leaves_from_list(v, node_name, temp_path)
 
 
 def find_node(mydict, node_name):
-    return nested_lookup(node_name, mydict)
+    return _search_node(mydict, node_name, [])
+
+
+def get_options(paths, i):
+    options = []
+    for path in paths:
+        if i < len(path):
+            el = path[i]
+            if el not in options:
+                options.append(el)
+    return options
+
+
+def filter_paths(paths, i, selected_value):
+    filtered = []
+    for path in paths:
+        if i < len(path):
+            el = path[i]
+            if el == selected_value:
+                filtered.append(path)
+    return filtered
+
+
+def choose_option(user_find_resulsts, user_id):
+    paths, i = user_find_resulsts[user_id]
+    options = get_options(paths, i)
+    if len(options) == 0:
+        return True, paths[0]
+    elif len(options) == 1:
+        key = options[0]
+        new_paths = filter_paths(paths, i, key)
+        user_find_resulsts[user_id] = new_paths, i+1
+        return choose_option(user_find_resulsts, user_id)
+    else:
+        return False, "Вы имеете в виду {0} или {1}?".format(", ".join(options[:-1]), options[-1])
 
 
 with open(json_path) as f:
@@ -71,5 +109,6 @@ with open(json_path) as f:
 
 
 if __name__ == '__main__':
-    gen = get_by_path(json_data, ["черты"])
+    gen = get_by_path(json_data, [])
     n = find_node(gen, "eyes")
+
