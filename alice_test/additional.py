@@ -101,7 +101,9 @@ def choose_option(user_find_resulsts, user_id):
         user_find_resulsts[user_id] = new_paths, i+1
         return choose_option(user_find_resulsts, user_id)
     else:
-        return False, "Вы имеете в виду {0} или {1}?".format(", ".join(options[:-1]), options[-1])
+        rel_paths_for_options = list(map(lambda path: "/".join(path[i:]), paths))
+        return False, "Вы имеете в виду {0} или {1}?".format(", ".join(rel_paths_for_options[:-1]),
+                                                             rel_paths_for_options[-1])
 
 
 with open(json_path) as f:
@@ -112,4 +114,6 @@ with open(json_path) as f:
 if __name__ == '__main__':
     gen = get_by_path(json_data, [])
     n = find_node(gen, "eyes")
+    for _ in n:
+        print(_)
 

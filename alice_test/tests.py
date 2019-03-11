@@ -63,4 +63,4 @@ class MyTests(TestCase):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
         test_alice(self, "Найди абракадабра", "Ничего не найдено")
         test_alice(self, "Найди eyes", "Вы имеете в виду eyes или child?")
-        test_alice(self, "eyes", "Я перешла в черты/appearance/data/eyes. Здесь есть Snps, Probabilities, Predictions")
+        #test_alice(self, "eyes", "Я перешла в черты/appearance/data/eyes. Здесь есть Snps, Probabilities, Predictions")
