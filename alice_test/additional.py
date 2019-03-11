@@ -101,12 +101,14 @@ def choose_option(user_find_resulsts, user_id):
         user_find_resulsts[user_id] = new_paths, i+1, {}
         return choose_option(user_find_resulsts, user_id)
     else:
-        text_options = options
         if len(options) == 2:
             rel_paths_for_options = list(map(lambda path: "/".join(path[i:]), paths))
-            new_user_options = dict(zip(rel_paths_for_options, options))
-            user_find_resulsts[user_id] = paths, i, new_user_options
             text_options = rel_paths_for_options
+            new_user_options = dict(zip(rel_paths_for_options, options))
+        else:
+            text_options = options
+            new_user_options = dict(zip(options, options))
+        user_find_resulsts[user_id] = paths, i, new_user_options
         return False, "Вы имеете в виду {0} или {1}?".format(", ".join(text_options[:-1]),
                                                              text_options[-1])
 
