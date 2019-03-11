@@ -130,19 +130,19 @@ def search_for_node(user_id, command):
         destination = "/".join(option_paths[0])
         return get_subnodes_text(destination, user_id)
     else:
-        user_find_resulsts[user_id] = option_paths, 0
+        user_find_resulsts[user_id] = option_paths, 0, {}
         return handle_find_dialogue(user_id, None)
 
 
 def handle_find_dialogue(user_id, command):
     if command:
-        key = command.replace("я имею в виду", "").strip()
-        paths, i = user_find_resulsts[user_id]
-        options = ad.get_options(paths, i)
-        if key not in options:
+        user_key = command.replace("я имею в виду", "").strip()
+        paths, i, user_options = user_find_resulsts[user_id]
+        if user_key not in user_options:
             return "Пожалуйста, выберите один из вариантов"
         else:
-            user_find_resulsts[user_id] = ad.filter_paths(paths, i, key), i+1
+            real_key = user_options[user_key]
+            user_find_resulsts[user_id] = ad.filter_paths(paths, i, real_key), i+1, {}
     end_find_dialogue, result = ad.choose_option(user_find_resulsts, user_id)
     if end_find_dialogue:
         user_find_resulsts.pop(user_id)

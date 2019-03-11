@@ -10,7 +10,7 @@ en_to_rus = {
     "genealogy": "генеалогия",
     "inheritance": "наследование",
     "traits": "черты",
-    "maultifactorial": "мультифакторы",
+    "multifactorial": "мультифакторы",
     "genetic": "генетика",
     "haplotypes": "гаплотипы",
     "genotypes": "генотипы",
@@ -90,7 +90,7 @@ def filter_paths(paths, i, selected_value):
 
 
 def choose_option(user_find_resulsts, user_id):
-    paths, i = user_find_resulsts[user_id]
+    paths, i, user_options = user_find_resulsts[user_id]
     print(paths, i)
     options = get_options(paths, i)
     if len(options) == 0:
@@ -98,12 +98,17 @@ def choose_option(user_find_resulsts, user_id):
     elif len(options) == 1:
         key = options[0]
         new_paths = filter_paths(paths, i, key)
-        user_find_resulsts[user_id] = new_paths, i+1
+        user_find_resulsts[user_id] = new_paths, i+1, {}
         return choose_option(user_find_resulsts, user_id)
     else:
-        rel_paths_for_options = list(map(lambda path: "/".join(path[i:]), paths))
-        return False, "Вы имеете в виду {0} или {1}?".format(", ".join(rel_paths_for_options[:-1]),
-                                                             rel_paths_for_options[-1])
+        text_options = options
+        if len(options) == 2:
+            rel_paths_for_options = list(map(lambda path: "/".join(path[i:]), paths))
+            new_user_options = dict(zip(rel_paths_for_options, options))
+            user_find_resulsts[user_id] = paths, i, new_user_options
+            text_options = rel_paths_for_options
+        return False, "Вы имеете в виду {0} или {1}?".format(", ".join(text_options[:-1]),
+                                                             text_options[-1])
 
 
 with open(json_path) as f:
