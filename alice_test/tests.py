@@ -50,13 +50,13 @@ class MyTests(TestCase):
         test_alice(self, "Алиса, скажи пожалуйста, где я?", "Вы находитесь в корне. Тут есть inheritance, "
                                   "генеалогия, черты, мультифакторы, генетика")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть материнская линия, "
-                                                "отцовская линия, просхождение, доля неандертальца")
+                                                "отцовская линия, происхождение, доля неандертальца")
 
     def test_go_back(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
         test_alice(self, "Перейди назад", "Вы находитесь в корне")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть материнская линия, "
-                                                "отцовская линия, просхождение, доля неандертальца")
+                                                "отцовская линия, происхождение, доля неандертальца")
         test_alice(self, "Перейди назад", "Вы перешли из генеалогия на уровень вверх и вернулись в корень")
 
     def test_find(self):
@@ -65,3 +65,12 @@ class MyTests(TestCase):
         test_alice(self, "Найди eyes", "Вы имеете в виду eyes или child/eyes?")
         test_alice(self, "eyes", "Я перешла в черты/appearance/data/eyes. Здесь есть Snps, Probabilities, Predictions")
         test_alice(self, "Где я?", "Вы находитесь в eyes. Тут есть Snps, Probabilities, Predictions")
+
+    def test_get_ancestry(self):
+        test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
+        test_alice(self, "Какое у меня происхождение", "Я перешла в ваше происхождение. Здесь есть Jewish, Africa, "
+                                                       "Africa, Northern, Arabia, South Caucasus, North Caucasus, "
+                                                       "Central Asia, East Asia, Western Europe, Eastern Europe, "
+                                                       "Middle East, Siberia, South Asia (Pakistan), South Asia (India)"
+                                                       ", Undefined")
+    

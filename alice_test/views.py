@@ -55,6 +55,8 @@ def handle_dialog(yandex_data):
         text = go_to_subnode(user_id, command)
     elif "найти" in command:
         text = search_for_node(user_id, command)
+    elif "происхождение" in command:
+        text = know_ancestry(user_id)
     else:
         text = "Не умею"
     text = truncate_text(text, TEXT_MAX_CHARS)
@@ -153,3 +155,8 @@ def handle_find_dialogue(user_id, command):
         return get_subnodes_text(destination, user_id)
     else:
         return result
+
+
+def know_ancestry(user_id):
+    coordinates[user_id] = ["генеалогия", "происхождение", "data"]
+    return get_subnodes_text("ваше происхождение", user_id)
