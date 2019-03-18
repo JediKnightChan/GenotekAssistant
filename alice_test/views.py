@@ -159,4 +159,12 @@ def handle_find_dialogue(user_id, command):
 
 def know_ancestry(user_id):
     coordinates[user_id] = ["генеалогия", "происхождение", "data"]
-    return get_subnodes_text("ваше происхождение", user_id)
+    race_to_percent = ad.get_by_path(ad.json_data, coordinates[user_id])
+    races_and_percents = []
+    for race in race_to_percent:
+        percent = race_to_percent[race]["percent"]
+        if percent:
+            races_and_percents.append((percent, race))
+
+    result = "Вы {}.".format(', '.join(['на {}% - {}'.format(race, percent) for race, percent in races_and_percents]))
+    return result

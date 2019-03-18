@@ -68,9 +68,5 @@ class MyTests(TestCase):
 
     def test_get_ancestry(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
-        test_alice(self, "Какое у меня происхождение", "Я перешла в ваше происхождение. Здесь есть Jewish, Africa, "
-                                                       "Africa, Northern, Arabia, South Caucasus, North Caucasus, "
-                                                       "Central Asia, East Asia, Western Europe, Eastern Europe, "
-                                                       "Middle East, Siberia, South Asia (Pakistan), South Asia (India)"
-                                                       ", Undefined")
-    
+        test_alice(self, "Какое у меня происхождение", "Вы на 5.3% - North Caucasus, на 94.2% - "
+                                                       "Eastern Europe, на 0.5% - Undefined.")
