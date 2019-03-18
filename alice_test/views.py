@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import alice_test.additional as ad
 from alice_test.nlp import test_bot
+from alice_test.lemmatizer import lemmatize
 
 
 coordinates = {}
@@ -35,7 +36,7 @@ def alice_test(request):
 
 
 def handle_dialog(yandex_data):
-    command = yandex_data["request"]["command"].lower()
+    command = lemmatize(yandex_data["request"]["command"].lower())
     user_id = yandex_data['session']['user_id']
     if yandex_data['session']['new'] or user_id not in coordinates:
         coordinates[user_id] = []
@@ -50,9 +51,9 @@ def handle_dialog(yandex_data):
         text = get_location(user_id)
     elif test_bot([command]) == ["go_back"]:
         text = go_back(user_id)
-    elif "перейди в" in command:
+    elif "перейти в" in command:
         text = go_to_subnode(user_id, command)
-    elif "найди" in command:
+    elif "найти" in command:
         text = search_for_node(user_id, command)
     else:
         text = "Не умею"
@@ -107,7 +108,7 @@ def get_subnodes_text(destination, user_id):
 
 def go_to_subnode(user_id, command):
     subnodes = ad.get_by_path(ad.json_data, coordinates[user_id])
-    requested_subnode = command.replace("перейди в", "").strip()
+    requested_subnode = command.replace("перейти в", "").strip()
     if type(subnodes) is not dict:
         return "Туда нельзя перейти"
     if requested_subnode not in subnodes.keys():

@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "jediknight.pythonanywhere.com",
+    "35.204.100.195",
+    "genotek-alice.duckdns.org",
 ]
 
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -13,6 +13,10 @@ en_to_rus = {
     "genetic": "генетика",
     "haplotypes": "гаплотипы",
     "genotypes": "генотипы",
+    "y_chr_haplogroup": "материнская линия",
+    "mt_dna_haplogroup": "отцовская линия",
+    "ancestry_decomposition": "просхождение",
+    "neanderthal": "доля неандертальца"
 }
 
 
