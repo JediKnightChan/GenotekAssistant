@@ -3,7 +3,6 @@ from functools import reduce
 import operator
 from testalice.settings import BASE_DIR
 from os.path import join as path_join
-from nested_lookup import nested_lookup
 
 json_path = path_join(BASE_DIR, "alice_test", "data.json")
 en_to_rus = {
@@ -91,7 +90,6 @@ def filter_paths(paths, i, selected_value):
 
 def choose_option(user_find_resulsts, user_id):
     paths, i, user_options = user_find_resulsts[user_id]
-    print(paths, i)
     options = get_options(paths, i)
     if len(options) == 0:
         return True, paths[0]

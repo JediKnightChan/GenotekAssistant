@@ -47,7 +47,7 @@ class MyTests(TestCase):
 
     def test_go_to(self):
         test_alice(self, "", "Это приватный навык. Я умею говорить, где вы находитесь в JSON-файле", new_session=True)
-        test_alice(self, "Где я?", "Вы находитесь в корне. Тут есть inheritance, "
+        test_alice(self, "Алиса, скажи пожалуйста, где я?", "Вы находитесь в корне. Тут есть inheritance, "
                                   "генеалогия, черты, мультифакторы, генетика")
         test_alice(self, "Перейди в генеалогия", "Я перешла в генеалогия. Здесь есть y_chr_haplogroup, "
                                                 "mt_dna_haplogroup, ancestry_decomposition, neanderthal")
@@ -64,3 +64,4 @@ class MyTests(TestCase):
         test_alice(self, "Найди абракадабра", "Ничего не найдено")
         test_alice(self, "Найди eyes", "Вы имеете в виду eyes или child/eyes?")
         test_alice(self, "eyes", "Я перешла в черты/appearance/data/eyes. Здесь есть Snps, Probabilities, Predictions")
+        test_alice(self, "Где я?", "Вы находитесь в eyes. Тут есть Snps, Probabilities, Predictions")

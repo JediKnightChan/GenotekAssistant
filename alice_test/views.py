@@ -2,6 +2,8 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import alice_test.additional as ad
+from alice_test.nlp import test_bot
+
 
 coordinates = {}
 user_find_resulsts = {}
@@ -42,12 +44,11 @@ def handle_dialog(yandex_data):
 
     if user_id in user_find_resulsts:
         return handle_find_dialogue(user_id, command)
-
-    if "помощь" in command or "что ты умеешь" in command:
+    if test_bot([command]) == ["help"]:
         text = app_help()
-    elif "где я" in command:
+    elif test_bot([command]) == ["where"]:
         text = get_location(user_id)
-    elif "перейди назад" in command:
+    elif test_bot([command]) == ["go_back"]:
         text = go_back(user_id)
     elif "перейди в" in command:
         text = go_to_subnode(user_id, command)
