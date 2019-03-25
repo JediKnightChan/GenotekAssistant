@@ -1,10 +1,10 @@
 import json
 from functools import reduce
 import operator
-from testalice.settings import BASE_DIR
+from YandexAlice.settings import BASE_DIR
 from os.path import join as path_join
 
-json_path = path_join(BASE_DIR, "alice_test", "data.json")
+json_path = path_join(BASE_DIR, "chat_bot", "data.json")
 en_to_rus = {
     "genealogy": "генеалогия",
     "inheritance": "наследование",

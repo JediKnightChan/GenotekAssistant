@@ -1,4 +1,4 @@
-"""testalice URL Configuration
+"""YandexAlice URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('alice/', include('alice_test.urls')),
+    path('alice/', include('chat_bot.urls')),
 ]

@@ -1,9 +1,9 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import alice_test.additional as ad
-from alice_test.nlp import test_bot
-from alice_test.lemmatizer import lemmatize
+import chat_bot.additional as ad
+from chat_bot.nlp import test_bot
+from chat_bot.lemmatizer import lemmatize
 
 
 coordinates = {}
