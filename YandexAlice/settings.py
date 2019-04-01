@@ -123,3 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Chat bot settings
+SINGLE_NODE_MAX_CHARS = 100
+TEXT_MAX_CHARS = 1000
