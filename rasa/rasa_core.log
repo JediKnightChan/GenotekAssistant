@@ -1,0 +1,27 @@
+2019-06-10 17:00:30,141 [ERROR]  Exception occurred while handling uri: 'http://localhost:5005/favicon.ico'
+Traceback (most recent call last):
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/app.py", line 893, in handle_request
+    handler, args, kwargs, uri = self.router.get(request)
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 407, in get
+    return self._get(request.path, request.method, "")
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 469, in _get
+    raise NotFound("Requested URL {} not found".format(url))
+sanic.exceptions.NotFound: Requested URL /favicon.ico not found
+2019-06-10 17:08:50,463 [ERROR]  Exception occurred while handling uri: 'http://127.0.0.1:5005/model/parse?text=hello'
+Traceback (most recent call last):
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/app.py", line 893, in handle_request
+    handler, args, kwargs, uri = self.router.get(request)
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 407, in get
+    return self._get(request.path, request.method, "")
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 446, in _get
+    raise method_not_supported
+sanic.exceptions.MethodNotSupported: Method GET not allowed for URL /model/parse
+2019-06-10 17:09:00,964 [ERROR]  Exception occurred while handling uri: 'http://127.0.0.1:5005/model/parse?text=hello'
+Traceback (most recent call last):
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/app.py", line 893, in handle_request
+    handler, args, kwargs, uri = self.router.get(request)
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 407, in get
+    return self._get(request.path, request.method, "")
+  File "/home/alexey/Documents/GenotekResearch2019/YandexAliceFlask/venv/lib/python3.6/site-packages/sanic/router.py", line 446, in _get
+    raise method_not_supported
+sanic.exceptions.MethodNotSupported: Method GET not allowed for URL /model/parse
