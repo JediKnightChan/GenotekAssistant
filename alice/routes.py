@@ -14,6 +14,7 @@ def create_response(text, received_data):
     :param dict received_data: the json structure received from Yandex
     :return dict: chat bot response as json structure
     """
+
     return {
         "response": {
             "text": text,
@@ -34,6 +35,7 @@ def alice():
     """
     The main chat bot controller for handling Yandex requests
     """
+
     received_data = request.get_json()
 
     yandex_id = received_data['session']['user_id']
@@ -73,4 +75,5 @@ def hello_world():
     """
     This controller is for chat bot testing purposes
     """
+
     return 'Hello World!'
